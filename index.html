@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hedgehog x Eduba: a read on the 10% layer</title>
+<meta name="description" content="You shipped the NVIDIA Spectrum-X support announcement right before GTC and you are running four repos in Go and Rust with a team that, from the GitHub activity, looks like maybe 15 engineers. I want to bet you that context management across fabric, dataplane, fabricator, and the docs is eating time you do not have." />
+<link rel="preconnect" href="https://rsms.me/" />
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div data-eduba="banner" style="background:#0a0a0a;color:#f5f5f5;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:13px;letter-spacing:0.01em;border-bottom:1px solid #1f1f1f;position:relative;z-index:1000;">
+  <a href="https://eduba.io" target="_blank" rel="noopener" style="color:#f5f5f5;text-decoration:none;font-weight:800;font-size:17px;letter-spacing:-0.02em;line-height:1;">eduba</a>
+  <span style="opacity:0.88;">Prepared by Eduba for Hedgehog &mdash; Emerge Americas 2026</span>
+</div>
+
+
+<header class="top">
+  <div class="wrap top-wrap">
+    <a class="mark" href="https://hedgehog.cloud/" target="_blank" rel="noopener" aria-label="Hedgehog">
+      <img src="logo.svg" alt="Hedgehog" width="150" height="40" />
+    </a>
+    <div class="topmeta">
+      <span class="tag">For Hedgehog</span>
+      <span class="dot" aria-hidden="true"></span>
+      <span class="tag muted">Prepared for the Hedgehog team</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap hero-wrap">
+    <div class="hero-copy">
+      <p class="eyebrow">A read on where AI fits in Hedgehog's stack. And where it doesn't.</p>
+      <h1>AI needs a new network.<br/><span class="accent">The team shipping it needs a new way to move.</span></h1>
+      <p class="lede">You shipped Spectrum-X alignment at <a href="https://www.prnewswire.com/news-releases/hedgehog-announces-support-for-nvidia-spectrum-x-ethernet-and-nvidia-cloud-partner-reference-architecture-at-gtc-2026-302737673.html" target="_blank" rel="noopener">GTC 2026</a>. FarmGPU is running your fabric on Solidigm's AI Central Lab. <a href="https://techarena.ai/content/how-hedgehog-brings-hyperscaler-agility-to-any-ai-infrastructure" target="_blank" rel="noopener">SemiAnalysis measured the congestion management delta</a>. The <a href="https://github.com/githedgehog" target="_blank" rel="noopener">GitHub org</a> is carrying fabric, dataplane, fabricator, and docs in parallel, with a team that is lean by design.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="https://calendly.com/thecro-eduba/30min" target="_blank" rel="noopener">30 minutes with Matt</a>
+        <span class="cta-meta">Booth 931. Matt Creamer, CRO at Eduba.</span>
+      </div>
+    </div>
+
+    <aside class="diagram" aria-hidden="true">
+      <div class="diagram-title">Orchestration layer</div>
+      <svg viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg" role="img">
+        <defs>
+          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#EDE6D2" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="360" height="360" fill="url(#grid)"/>
+        <!-- Layer 1: 60% traditional code -->
+        <rect x="30" y="250" width="300" height="70" fill="#F5F2EC" stroke="#333" stroke-width="1.25"/>
+        <text x="45" y="275" fill="#333" font-family="Inter" font-size="12" font-weight="600">60%  Traditional code + DB</text>
+        <text x="45" y="295" fill="#666" font-family="Inter" font-size="11">fabric, dataplane, fabricator</text>
+        <!-- Layer 2: 30% rule-based -->
+        <rect x="30" y="160" width="300" height="70" fill="#FFFFFF" stroke="#333" stroke-width="1.25"/>
+        <text x="45" y="185" fill="#333" font-family="Inter" font-size="12" font-weight="600">30%  Rule-based logic</text>
+        <text x="45" y="205" fill="#666" font-family="Inter" font-size="11">SONiC policies, K8s CRDs, VPC</text>
+        <!-- Layer 3: 10% AI -->
+        <rect x="30" y="70" width="300" height="70" fill="#E2C479" stroke="#6F4E2C" stroke-width="1.25"/>
+        <text x="45" y="95" fill="#1A1A1A" font-family="Inter" font-size="12" font-weight="700">10%  Language model actually helps</text>
+        <text x="45" y="115" fill="#4a3a1c" font-family="Inter" font-size="11">where does this live in Hedgehog?</text>
+        <!-- arrow -->
+        <line x1="180" y1="40" x2="180" y2="60" stroke="#6F4E2C" stroke-width="1.5"/>
+        <polygon points="180,68 175,58 185,58" fill="#6F4E2C"/>
+        <text x="180" y="30" text-anchor="middle" fill="#6F4E2C" font-family="Inter" font-size="10" font-weight="600" letter-spacing="0.08em">SPEC</text>
+      </svg>
+      <div class="diagram-caption">60 / 30 / 10. The question is the top band.</div>
+    </aside>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap band-wrap">
+    <div class="band-item">
+      <div class="band-num">04</div>
+      <div class="band-label">active repos<br/><span>fabric, dataplane, fabricator, docs</span></div>
+    </div>
+    <div class="band-item">
+      <div class="band-num">Q2&nbsp;26</div>
+      <div class="band-label">Spectrum-X GA target<br/><span>NCP reference architecture</span></div>
+    </div>
+    <div class="band-item">
+      <div class="band-num">800G</div>
+      <div class="band-label">fabric at FarmGPU<br/><span>SemiAnalysis-measured</span></div>
+    </div>
+    <div class="band-item">
+      <div class="band-num">~15</div>
+      <div class="band-label">engineers shipping it<br/><span>more surface area than headcount</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="read">
+  <div class="wrap read-wrap">
+    <header class="section-head">
+      <span class="section-tag">01 / The read</span>
+      <h2>More surface area than headcount.</h2>
+    </header>
+    <div class="read-grid">
+      <p>That shape is the shape the Eduba team knows well. Product companies with a technical founder, a small senior engineering bench, and more surface area than headcount.</p>
+      <p>The compounding tax is context. Every new contributor reconstructs decisions that are already in someone's head. Every external artifact drifts a little from what the code actually does. Every time a competitor ships a story, the team has to re-align the narrative.</p>
+      <p>Arista. Aviz. Nexthop. Upscale. Spectrum-X itself. The category framing is still being negotiated in public, and a lean team pays the tax of holding that line.</p>
+    </div>
+  </div>
+</section>
+
+<section class="frame">
+  <div class="wrap frame-wrap">
+    <header class="section-head">
+      <span class="section-tag">02 / The frame</span>
+      <h2>60 / 30 / 10.</h2>
+    </header>
+    <div class="frame-grid">
+      <article class="layer">
+        <div class="layer-pct">60%</div>
+        <h3>Traditional code and DB</h3>
+        <p>Already written. Already yours. Fabric in Go, dataplane in Rust, fabricator, docs. Postgres where Postgres does the job faster and cheaper, with better guarantees.</p>
+      </article>
+      <article class="layer">
+        <div class="layer-pct">30%</div>
+        <h3>Rule-based logic</h3>
+        <p>SONiC policies. Fabric config. The Kubernetes CRDs that are the product. Deterministic, testable, reviewable. No LLM belongs here.</p>
+      </article>
+      <article class="layer gold">
+        <div class="layer-pct">10%</div>
+        <h3>Where a language model actually helps</h3>
+        <p>Most teams at your stage put LLMs in all three layers and pay for it. The interesting question is where the 10% sits inside Hedgehog specifically.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="proof">
+  <div class="wrap proof-wrap">
+    <header class="section-head">
+      <span class="section-tag">03 / The closest client</span>
+      <h2>Feeld. CTO-led. Product company. Same shape.</h2>
+    </header>
+    <div class="proof-grid">
+      <div class="proof-copy">
+        <p>Feeld CTO-led. A scoped sprint covering workshop, advisory, and an Organizational Context Architecture. The deliverable was not a slide deck. It was a context layer the team could keep using after the engagement closed.</p>
+        <p>The Hedgehog shape maps cleanly. Technical-founder-led. Product-company posture. Multiple surfaces to coordinate across a senior engineering bench. Scoped, not six months. Methodology transfer, not a vendor relationship.</p>
+      </div>
+      <aside class="proof-stack">
+        <div class="stack-row"><span class="k">Engagement</span><span class="v">Scoped sprint</span></div>
+        <div class="stack-row"><span class="k">Shape</span><span class="v">Workshop + advisory + OCA</span></div>
+        <div class="stack-row"><span class="k">Deliverable</span><span class="v">Context layer the team keeps using</span></div>
+        <div class="stack-row"><span class="k">Buyer</span><span class="v">CTO, peer-to-peer</span></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="paper">
+  <div class="wrap paper-wrap">
+    <header class="section-head">
+      <span class="section-tag">04 / The paper</span>
+      <h2>Folder structure as agent architecture.</h2>
+    </header>
+    <div class="paper-grid">
+      <p class="paper-lede">Kubernetes CRDs as the fabric API surface and folder-structure as agent architecture are the same underlying move. Make the context layer legible and manipulable through a standard tool interface.</p>
+      <div class="paper-card">
+        <div class="paper-meta">Paper</div>
+        <h3>Interpretable Context Methodology</h3>
+        <p>Folder structure as agent architecture. Submitted to ACM TiiS. Apache-friendly, MIT-licensed repo. 52-member practitioner community, U-shaped edit pattern observed.</p>
+        <div class="paper-links">
+          <a href="https://github.com/RinDig/Interpretable-Context-Methodology-ICM-" target="_blank" rel="noopener">github.com/RinDig/Interpretable-Context-Methodology-ICM-</a>
+        </div>
+        <p class="paper-note">The Hedgehog team will have opinions about it. That is the point.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap cta-wrap">
+    <h2>Come argue with us about whether your 10% layer is where you think it is.</h2>
+    <p class="cta-lede">Matt will be at booth 931. Thirty minutes on a call works too.</p>
+    <div class="cta-block">
+      <a class="btn primary big" href="https://calendly.com/thecro-eduba/30min" target="_blank" rel="noopener">Book 30 minutes with Matt</a>
+      <div class="cta-person">
+        <div class="cta-person-name">Matt Creamer</div>
+        <div class="cta-person-role">CRO, Eduba</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-wrap">
+    <div class="foot-left">
+      <div class="foot-title">Prepared by Eduba</div>
+      <div class="foot-domain"><a href="https://eduba.io" target="_blank" rel="noopener">eduba.io</a> &middot; <a href="https://eduba.io/works" target="_blank" rel="noopener">More case studies</a></div>
+    </div>
+    <div class="foot-right">
+      <div class="foot-kv"><span>For</span><a href="https://hedgehog.cloud/" target="_blank" rel="noopener">hedgehog.cloud</a></div>
+      <div class="foot-kv"><span>Booth</span><span>931</span></div>
+      <div class="foot-kv"><span>Path</span><span>/for/hedgehog</span></div>
+    </div>
+  </div>
+</footer>
+
+<footer data-eduba="footer" style="background:#0a0a0a;color:#dcdcdc;padding:36px 20px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:13px;line-height:1.6;border-top:1px solid #1f1f1f;margin-top:48px;">
+  <div style="max-width:1040px;margin:0 auto;">
+    <div style="display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between;align-items:flex-start;">
+      <div style="min-width:240px;flex:1;">
+        <div style="margin-bottom:6px;"><a href="https://eduba.io" target="_blank" rel="noopener" style="color:#ffffff;text-decoration:none;font-weight:800;font-size:20px;letter-spacing:-0.02em;">eduba</a></div>
+        <div style="opacity:0.85;margin-bottom:4px;">Van Clief Media LLC, dba Eduba</div>
+        <div style="opacity:0.7;">Veteran-owned AI consulting and training firm</div>
+      </div>
+      <div style="min-width:220px;flex:1;">
+        <div style="color:#ffffff;font-weight:600;margin-bottom:2px;">Matt Creamer, CRO</div>
+        <div style="margin-bottom:10px;"><a href="mailto:thecro@eduba.io" style="color:#dcdcdc;text-decoration:underline;">thecro@eduba.io</a></div>
+        <div style="opacity:0.85;">Founder: Jake Van Clief</div>
+      </div>
+      <div style="min-width:180px;flex:1;">
+        <div style="margin-bottom:4px;"><a href="https://eduba.io" target="_blank" rel="noopener" style="color:#dcdcdc;text-decoration:underline;">eduba.io</a></div>
+        <div style="opacity:0.85;">Palm Coast, FL</div>
+      </div>
+    </div>
+    <div style="margin-top:24px;padding-top:16px;border-top:1px solid #1f1f1f;opacity:0.62;font-size:12px;line-height:1.55;">
+      This site was custom-built by Eduba as a conference pitch. It is not affiliated with or operated by Hedgehog.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
